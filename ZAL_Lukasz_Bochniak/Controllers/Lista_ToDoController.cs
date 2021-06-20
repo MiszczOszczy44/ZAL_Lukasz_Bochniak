@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -50,6 +51,9 @@ namespace ZAL_Lukasz_Bochniak.Controllers
         {
             if (ModelState.IsValid)
             {
+                string CurrentUserID = User.Identity.GetUserId();
+                ApplicationUser CurrentUser = db.Users.FirstOrDefault(x => x.Id == CurrentUserID);
+                lista_ToDo.User = CurrentUser;
                 db.Lista.Add(lista_ToDo);
                 db.SaveChanges();
                 return RedirectToAction("Index");
